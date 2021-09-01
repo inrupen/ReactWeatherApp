@@ -1,5 +1,6 @@
 import React from "react";
 import styled from 'styled-components'
+import Today from "./Today";
 
 const Wrapper = styled.div`
     margin: 1rem;
@@ -54,21 +55,8 @@ const Wrapper = styled.div`
 
 export default function Card (props) {
 
-    let todaysDate = new Date();
-    let daysList = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
-    let monthsList = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Aug', 'Oct', 'Nov', 'Dec'];
-    let date = todaysDate.getDate();
-    let month = monthsList[todaysDate.getMonth()];
-    let year = todaysDate.getFullYear();
-    let day = daysList[todaysDate.getDay()];
-    let today = `${day} ${date} ${month} ${year}`;
-
-    function handleClick() {
-        
-    }
-
     return (
-        <Wrapper onClick={handleClick} >
+        <Wrapper>
             <div className="cardHeader">
                 <span className="city">{props.city}</span>
             </div>
@@ -76,7 +64,7 @@ export default function Card (props) {
                 <div className="parentSection">
                     <div className="leftSide">
                         <div className="childSection">
-                            <span className="date">{today}</span><br />
+                            <span className="date"><Today /></span><br />
                             <span className="temperature">{props.temperature} °c</span><br />
                             <span className="description">{props.description}</span>
                         </div>
