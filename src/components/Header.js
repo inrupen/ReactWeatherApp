@@ -1,14 +1,10 @@
 import React from "react";
-import styled from 'styled-components'
+import styled from "styled-components";
 
 const Wrapper = styled.div`
-    margin: .5rem;
-`
+    margin: 0.5rem;
+`;
 
-export default function Header () {
-    return (
-        <Wrapper>
-            Weather App
-        </Wrapper>
-    )
+export default function Header() {
+    return <Wrapper>Weather App</Wrapper>;
 }
