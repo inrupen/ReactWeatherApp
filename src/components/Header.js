@@ -10,5 +10,5 @@ const Wrapper = styled.div`
 `
 
 export default function Header() {
-    return <Wrapper>Weather App</Wrapper>
+    return <Wrapper data-testid="header">Weather App</Wrapper>
 }

@@ -153,7 +153,6 @@ export default function Weather({
                         description={weatherData.description}
                         temperature={weatherData.temperature}
                         windSpeed={weatherData.wind_speed}
-                        windGust={weatherData.wind_gust}
                         sunrise={weatherData.sunrise}
                         sunset={weatherData.sunset}
                     />
