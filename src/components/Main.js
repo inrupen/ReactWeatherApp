@@ -11,9 +11,12 @@ const Wrapper = styled.div`
     .align {
         display: flex;
         justify-content: center;
+        align-items: center;
         flex-wrap: wrap;
         row-gap: 2em;
         column-gap: 5em;
+        margin-top: 2rem;
+        height: 40rem;
     }
 `
 

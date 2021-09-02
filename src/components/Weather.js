@@ -10,6 +10,7 @@ const Wrapper = styled.div`
     align-items: center;
     flex-direction: column;
     .forecastCity {
+        margin-top: .5rem;
         text-align: center;
         width: 10rem;
         background-color: #fffee3;
@@ -50,11 +51,12 @@ const Wrapper = styled.div`
         }
     }
     .forecastGrid {
+        margin-top: 2rem;
         display: flex;
         justify-content: center;
         flex-wrap: wrap;
         row-gap: 1em;
-        max-width: 70%;
+        max-width: 80%;
         column-gap: 1em;
     }
 `
