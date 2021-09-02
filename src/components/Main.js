@@ -17,6 +17,7 @@ const Wrapper = styled.div`
         column-gap: 5em;
         margin-top: 2rem;
         height: 40rem;
+        width: 80rem;
     }
 `
 

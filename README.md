@@ -6,7 +6,7 @@ Using [Open Weather Data API](http://openweathermap.org/current) for weather dat
 
 ## Demo
 
-Demo app avaliable at [CloudFrontUrl](d3bmo0xpxt0te.cloudfront.net).
+Demo app avaliable at [CloudFrontUrl](https://d3bmo0xpxt0te.cloudfront.net).
 
 ## Available Scripts
 
