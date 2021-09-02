@@ -4,7 +4,6 @@ import Today from "./Today";
 
 const Wrapper = styled.div`
     margin: 1rem;
-    /* padding: 1rem 0; */
     border: 1px solid #f5f5f5;
     border-radius: 8px;
     box-shadow: -8px 10px 7px -6px #777;

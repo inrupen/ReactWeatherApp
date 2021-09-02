@@ -1,0 +1,10 @@
+project_code: weather-app
+region: us-east-1
+profile: personal
+stack_tags:
+  {
+    "owner": "nrupen",
+    "application": "nrupen",
+    "application-name": "weather-app",
+    "deployed-by":"nrupen"
+  }

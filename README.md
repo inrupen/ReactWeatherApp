@@ -1,6 +1,12 @@
-# Getting Started with Create React App
+# Weather App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+Weather app displays the weather of 6 EU-cities and their forcast for next 6 hours.
+Using [Open Weather Data API](http://openweathermap.org/current) for weather data.
+
+## Demo
+
+Demo app avaliable at [CloudFrontUrl](d3bmo0xpxt0te.cloudfront.net).
 
 ## Available Scripts
 
@@ -28,3 +34,7 @@ The build is minified and the filenames include the hashes.\
 Your app is ready to be deployed!
 
 See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+
+### Note:
+
+I have commited the .env file to make it easily re-produceable. API key expires in 10days

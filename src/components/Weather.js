@@ -1,7 +1,4 @@
-/* eslint-disable jsx-a11y/anchor-has-content */
-/* eslint-disable jsx-a11y/anchor-is-valid */
-/* eslint-disable react/jsx-no-comment-textnodes */
-import React, { useEffect, useState, useRef } from "react"
+import React, { useEffect, useState } from "react"
 import styled from "styled-components"
 import Card from "./Card"
 import ForecastCards from "./ForecastCards"
@@ -22,9 +19,11 @@ const Wrapper = styled.div`
         padding: 0.7rem;
         font-weight: 700;
         font-size: 1.3rem;
+
         &:hover {
             color: #b91d11;
         }
+
         .close {
             position: sticky;
             width: 20px;
@@ -163,18 +162,16 @@ export default function Weather({
 
             {openForecast && props.city === props.selectedForecastCity && (
                 <>
-                    <span className="forecastCity">
+                    <Today />
+                    <span
+                        className="forecastCity"
+                        onClick={() => {
+                            setOpen(!open)
+                            setOpenForecast(!openForecast)
+                        }}
+                    >
                         {city}
-                        {/* <Today /> */}
-                        <a
-                            href="#"
-                            className="close"
-                            role="button"
-                            onClick={() => {
-                                setOpen(!open)
-                                setOpenForecast(!openForecast)
-                            }}
-                        ></a>
+                        <a href="#" className="close" role="button"></a>
                     </span>
                     <div className="forecastGrid">{ForecastList}</div>
                 </>

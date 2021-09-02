@@ -1,0 +1,161 @@
+AWSTemplateFormatVersion: "2010-09-09"
+Transform: AWS::Serverless-2016-10-31
+Description: Cloudformation template for creating a S3 Bucket, CloudFront
+
+Parameters:
+  AppName:
+    Type: String
+    Description: Application name, used to tag resources
+  EnvironmentID:
+    Description: The environment ID used in resource names
+    Type: String
+  Route53HostedZoneName:
+    Type: String
+    Description: Route53 Hosted Zone Name
+  Route53HostedZoneID:
+    Type: String
+    Description: Route53 HostedZoneID
+  TopLevelDomain:
+    Type: String
+    Description: Top level domain
+
+Resources:
+
+  # static files website s3 bucket
+  WebsiteS3Bucket:
+    Type: AWS::S3::Bucket
+    Properties:
+      BucketName: !Sub weather-app-2021-${EnvironmentID}
+      PublicAccessBlockConfiguration:
+        BlockPublicAcls: True
+        BlockPublicPolicy: True
+        IgnorePublicAcls: True
+        RestrictPublicBuckets: True
+      BucketEncryption:
+        ServerSideEncryptionConfiguration:
+          - ServerSideEncryptionByDefault:
+              SSEAlgorithm: AES256
+  
+  WebsiteBucketPolicy:
+    Type: AWS::S3::BucketPolicy
+    DependsOn:
+      - WebsiteS3Bucket
+    Properties:
+      Bucket:
+        Ref: WebsiteS3Bucket
+      PolicyDocument:
+        Statement:
+          - Sid: AllowCloudFront
+            Action:
+              - s3:GetObject
+            Effect: Allow
+            Principal:
+              CanonicalUser:
+                Fn::GetAtt: [FrontendDistributionIdentity, S3CanonicalUserId]
+            Resource:
+              Fn::Join:
+                - ""
+                - - "arn:aws:s3:::"
+                  - Ref: WebsiteS3Bucket
+                  - /*
+          # Don't allow requests other than SSL
+          - Sid: AllowSSLRequestsOnly
+            Action: s3:*
+            Effect: Deny
+            Resource:
+              - !Join ["", ["arn:aws:s3:::", !Ref WebsiteS3Bucket]]
+              - !Join
+                - ""
+                - - "arn:aws:s3:::"
+                  - !Ref WebsiteS3Bucket
+                  - /*
+            Condition:
+              Bool:
+                aws:SecureTransport: "false"
+            Principal: "*"
+
+  #Cloudfront DistributionIdentity
+  FrontendDistributionIdentity:
+    Type: "AWS::CloudFront::CloudFrontOriginAccessIdentity"
+    Properties:
+      CloudFrontOriginAccessIdentityConfig:
+        Comment: !Sub "Cloudfront Origin identity for ${TopLevelDomain}"
+
+  #Cloudfront
+  Website:
+    Type: AWS::CloudFront::Distribution
+    DependsOn:
+      - WebsiteS3Bucket
+      - FrontendDistributionIdentity
+    Properties:
+      DistributionConfig:
+        Enabled: true
+        IPV6Enabled: true
+        HttpVersion: http2
+        CustomErrorResponses:
+          - ErrorCachingMinTTL: 10
+            ErrorCode: 404
+            ResponseCode: 404
+            ResponsePagePath: /404.html
+          - ErrorCachingMinTTL: 10
+            ErrorCode: 403
+            ResponseCode: 404
+            ResponsePagePath: /404.html
+        Origins:
+          - Id:
+              Fn::Join:
+                - "-"
+                - - Ref: WebsiteS3Bucket
+                  - ID
+            DomainName:
+              Fn::GetAtt: [WebsiteS3Bucket, RegionalDomainName]
+            S3OriginConfig:
+              OriginAccessIdentity:
+                !Join [
+                  "",
+                  [
+                    "origin-access-identity/cloudfront/",
+                    !Ref FrontendDistributionIdentity,
+                  ],
+                ]
+        DefaultRootObject: index.html
+        PriceClass: PriceClass_All
+        ViewerCertificate:
+          CloudFrontDefaultCertificate: true
+        DefaultCacheBehavior:
+          DefaultTTL: 0
+          MaxTTL: 0
+          MinTTL: 0
+          TargetOriginId:
+            Fn::Join:
+              - "-"
+              - - Ref: WebsiteS3Bucket
+                - ID
+          AllowedMethods:
+            - HEAD
+            - GET
+            - OPTIONS
+          CachedMethods:
+            - HEAD
+            - GET
+          Compress: false
+          ForwardedValues:
+            QueryString: true
+            Cookies:
+              Forward: all
+            Headers:
+              - Accept
+              - Accept-Control-Request-Headers
+              - Accept-Control-Request-Method
+              - Origin
+              - Referer
+          ViewerProtocolPolicy: redirect-to-https
+        Logging:
+          Bucket:
+            Fn::GetAtt:
+              - WebsiteS3Bucket
+              - DomainName
+          IncludeCookies: false
+          Prefix: cdn-access-logs/
+
+

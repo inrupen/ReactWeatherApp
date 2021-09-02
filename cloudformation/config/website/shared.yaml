@@ -1,0 +1,10 @@
+template_path: website.yaml
+stack_name: "weather-app"
+parameters:
+  AppName: "weather-app"
+  EnvironmentID: "dev"
+
+  #Public domain
+  TopLevelDomain: nrupen.link
+  Route53HostedZoneName: nrupen.link
+  Route53HostedZoneID: Z05709481N4CDMY1K25TF
