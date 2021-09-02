@@ -1,7 +1,7 @@
 # Weather App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
-Weather app displays the weather of 6 EU-cities and their forcast for next 6 hours.
+Weather app displays the weather of 6 EU-cities and their forecast for next 6 hours.
 Using [Open Weather Data API](http://openweathermap.org/current) for weather data.
 
 ## Demo
@@ -34,6 +34,11 @@ The build is minified and the filenames include the hashes.\
 Your app is ready to be deployed!
 
 See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+
+### `npm run deploy`
+
+Deploys the `build` folder to AWS-S3 bucket. Using AWS-cli. 
+Cloudformation template is deployed using [sceptre](https://sceptre.cloudreach.com/2.6.3/)
 
 ### Note:
 
